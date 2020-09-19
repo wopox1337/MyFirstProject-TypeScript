@@ -14,12 +14,10 @@ createConnection().then(async connection => {
     let list = await usersAPI.getUsers();
 
     let usersList: IUser[] = [];
-    list.data.map((item) => {
-        let user: IUser = {
+    list.data.map((item: Object) => {
+        usersList.push({
             firstName: item['first_name'], lastName: item['last_name'], avatar: item['avatar']
-        }
-
-        usersList.push(user);
+        });
     });
 
     const promises = usersList.map((item) => AddUser(connection, item));

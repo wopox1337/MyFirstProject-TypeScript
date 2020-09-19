@@ -7,18 +7,20 @@ import {usersAPI} from "./API/users"
 interface IUser {
     firstName: string,
     lastName: string,
-    age: number,
+    avatar: string,
 }
 
 createConnection().then(async connection => {
-
     let list = await usersAPI.getUsers();
-    // console.log(list);
 
-    const usersList: IUser[] = [
-        { firstName: "Vasya", lastName: "Pupkin", age: 26 },
-        { firstName: "Petya", lastName: "Lupkin", age: 22 },
-    ];
+    let usersList: IUser[] = [];
+    list.data.map((item) => {
+        let user: IUser = {
+            firstName: item['first_name'], lastName: item['last_name'], avatar: item['avatar']
+        }
+
+        usersList.push(user);
+    });
 
     const promises = usersList.map((item) => AddUser(connection, item));
     await Promise.all(promises);
@@ -38,7 +40,7 @@ async function AddUser(connection: Connection, userData: IUser) {
     const user = new User();
     user.firstName = userData.firstName;
     user.lastName = userData.lastName;
-    user.age = userData.age;
+    user.avatar = userData.avatar;
 
     return connection.manager.save(user);
 }

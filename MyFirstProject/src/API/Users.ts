@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: "https://jsonplaceholder.typicode.com/",
+    baseURL: "https://reqres.in/api/",
 });
 
 export const usersAPI = {
-    async getUsers(currentPage = 1, pageSize = 10) {
-        const response = await instance.get(`users?page=${currentPage}&count=${pageSize}`);
+    async getUsers(currentPage = 1) {
+        const response = await instance.get(`users?page=${currentPage}`);
         return response.data;
     }
 }

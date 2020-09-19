@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {Connection, createConnection} from "typeorm";
 
 import {User} from "./entity/User";
+import {usersAPI} from "./API/users"
 
 interface IUser {
     firstName: string,
@@ -10,6 +11,10 @@ interface IUser {
 }
 
 createConnection().then(async connection => {
+
+    let list = await usersAPI.getUsers();
+    // console.log(list);
+
     const usersList: IUser[] = [
         { firstName: "Vasya", lastName: "Pupkin", age: 26 },
         { firstName: "Petya", lastName: "Lupkin", age: 22 },

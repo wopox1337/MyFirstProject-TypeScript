@@ -11,13 +11,12 @@ interface IUser {
 }
 
 createConnection().then(async connection => {
-    let list = await usersAPI.getUsers();
+    let list = (await usersAPI.getUsers()).data;
 
-    let usersList: IUser[] = [];
-    list.data.map((item: Object) => {
-        usersList.push({
+    const usersList = list.map(item => {
+        return {
             firstName: item['first_name'], lastName: item['last_name'], avatar: item['avatar']
-        });
+        }
     });
 
     const promises = usersList.map((item) => AddUser(connection, item));

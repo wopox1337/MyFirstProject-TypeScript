@@ -1,8 +1,10 @@
 import "reflect-metadata";
 import {Connection, createConnection} from "typeorm";
 
+
 import {User} from "./entity/User";
 import {usersAPI} from "./API/users"
+import {apolloServer} from "./API/Apollo";
 
 interface IUser {
     firstName: string,
@@ -24,6 +26,7 @@ createConnection().then(async connection => {
     
     const users = await connection.manager.find(User);
     console.log("Loaded users: ", users);
+    apolloServer.Start(users);
 
     await connection.manager.clear(User);
     console.log("Table cleared.");
